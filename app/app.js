@@ -480,7 +480,7 @@ function renderProgress() {
   }
   box.appendChild(wrap);
   const pts = DATA.trophies.reduce((s, t) => s + (earned.has(t.name) ? pointsOf(t) : 0), 0);
-  box.appendChild(el('p', null, 'PSN points earned: ' + pts.toLocaleString('en-US') + ' of 1,350. Time to platinum at this pace: the full run is ≈ 200 h at difficulty 4/10 [1][2][3].'));
+  box.appendChild(el('p', null, 'PSN points earned: ' + pts.toLocaleString('en-US') + ' of 1,350. The full run is ≈ 200 h at difficulty 4/10 [1][2][3] — story 60–80 h, the rest cleanup.'));
 }
 
 function switchTab(name) {
