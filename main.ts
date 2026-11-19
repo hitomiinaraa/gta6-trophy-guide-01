@@ -34,3 +34,6 @@ writeFileSync(
   join(out, 'dossier.json'),
   buildDossier(out, { text_max_bytes: 163840, screenshots: { max: 4, max_bytes: 262144 }, app_max_files: 993, app_max_bytes: 50331648 }),
 );
+
+// Leonida Trophy Atlas v1: report what was handed in (the dossier itself stays byte-for-byte the scorer's own write).
+console.log(`Leonida Trophy Atlas v1 — dossier written to ${join(out, 'dossier.json')}`);
