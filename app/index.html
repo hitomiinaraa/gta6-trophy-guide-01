@@ -1,106 +1,97 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:,">
-<title>Leonida Trophy Atlas — GTA VI · PlayStation 5</title>
+<title>Leonida Trophy Atlas — GTA VI, all 55 PS5 trophies</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23d9a441'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header id="top">
-  <div class="brand">
-    <div class="mark" aria-hidden="true">LA</div>
-    <div>
-      <h1>Leonida Trophy Atlas</h1>
-      <p class="sub">GTA VI · PlayStation 5 · 55 trophies · unofficial fan guide · works offline</p>
-    </div>
+<header class="top">
+  <div class="title">
+    <h1>Leonida Trophy Atlas</h1>
+    <p class="sub">GTA VI — every PS5 trophy, with a cited guide, a 7-stage roadmap and a tracker. Sources read 20 Nov 2026.</p>
   </div>
-  <div class="progress" id="progressBox">
-    <div class="big"><span id="earnedCount">0 / 55</span> <span class="muted">earned</span></div>
-    <div class="bar"><div id="progressFill"></div></div>
-    <div class="counts" id="gradeCounts">P 0/1 · G 0/2 · S 0/6 · B 0/46</div>
-    <div class="counts" id="psnPoints">0 / 1,350 PSN points</div>
-    <div class="counts" id="timeLeft">≈ 200 h to platinum · difficulty 4/10</div>
+  <div class="stats" aria-label="Progress">
+    <div class="stat"><strong id="earnedCount">0/55</strong><span>earned</span></div>
+    <div class="stat"><strong>1P · 2G · 6S · 46B</strong><span>grades</span></div>
+    <div class="stat"><strong id="pointsCount">0/1,350</strong><span>PSN points</span></div>
+    <div class="stat"><strong>≈200 h</strong><span>to platinum</span></div>
   </div>
-  <div class="actions">
+  <div class="controls">
     <button id="exportBtn" type="button">Export</button>
     <button id="importBtn" type="button">Import</button>
     <input id="importFile" type="file" accept="application/json" hidden>
     <button id="resetBtn" type="button">Reset</button>
-    <label class="spoiler"><input id="spoilerToggle" type="checkbox" checked> Hide story spoilers until earned</label>
-    <span class="saved" id="savedNote">Saved in this browser</span>
+    <label class="spoiler"><input id="spoilerToggle" type="checkbox" checked> Hide spoilers</label>
+    <span id="savedNote" class="saved">Saved in this browser</span>
   </div>
 </header>
 
-<div id="audit" class="audit"></div>
-<div id="citedBy" class="citedby"></div>
-<div id="stageChips" class="stages"></div>
+<section class="audit" id="audit" aria-label="Audit strip">Loading trophy data…</section>
+<section class="citedby" id="citedby" aria-label="Cited-by strip"></section>
+<nav class="stages" id="stages" aria-label="Roadmap stages"></nav>
 
-<nav id="tabs" aria-label="Views">
-  <button type="button" data-tab="checklist" class="active">Checklist</button>
-  <button type="button" data-tab="roadmap">Roadmap to platinum</button>
-  <button type="button" data-tab="missables">Missables &amp; watch</button>
-  <button type="button" data-tab="sources">Source matrix</button>
-  <button type="button" data-tab="progress">Progress</button>
+<nav class="tabs" aria-label="Views">
+  <button type="button" data-view="checklist" class="active">Checklist</button>
+  <button type="button" data-view="roadmap">Roadmap to platinum</button>
+  <button type="button" data-view="missables">Missables &amp; watch</button>
+  <button type="button" data-view="sources">Source matrix</button>
+  <button type="button" data-view="progress">Progress</button>
 </nav>
 
-<main id="view">
-  <section id="tab-checklist" class="tab active">
-    <div class="filters" id="filters"></div>
+<main>
+  <section class="panel active" id="tab-checklist">
     <div class="toolbar">
-      <input id="search" type="search" placeholder="Search names, guides, places…" aria-label="Search trophies">
-      <label>Grade
-        <select id="gradeFilter">
-          <option value="all">All grades</option>
-          <option value="platinum">Platinum</option>
-          <option value="gold">Gold</option>
-          <option value="silver">Silver</option>
-          <option value="bronze">Bronze</option>
-        </select>
-      </label>
-      <label>Sort
-        <select id="sortBy">
-          <option value="roadmap">Roadmap order</option>
-          <option value="official">Official order</option>
-          <option value="name">Name A–Z</option>
-          <option value="grade">Grade</option>
-        </select>
-      </label>
-      <span id="showing" class="muted"></span>
+      <input id="search" type="search" placeholder="Search trophies…" aria-label="Search trophies">
+      <select id="gradeFilter" aria-label="Filter by grade">
+        <option value="">All grades</option>
+        <option value="platinum">Platinum</option>
+        <option value="gold">Gold</option>
+        <option value="silver">Silver</option>
+        <option value="bronze">Bronze</option>
+      </select>
+      <select id="sortFilter" aria-label="Sort">
+        <option value="id">Order: trophy list</option>
+        <option value="stage">Order: roadmap stage</option>
+        <option value="kind">Order: kind</option>
+        <option value="difficulty">Order: difficulty</option>
+      </select>
     </div>
-    <div class="columns">
-      <div class="col list" id="trophyList" aria-label="Trophy list"></div>
-      <div class="col detail" id="detail" aria-label="Trophy guide"></div>
-      <aside class="col sources" id="sourcePanel" aria-label="Sources"></aside>
+    <div class="chips" id="filterChips"></div>
+    <div class="cols">
+      <div class="list" id="list" role="listbox" aria-label="Trophies"></div>
+      <article class="detail" id="detail" aria-label="Trophy guide"></article>
+      <aside class="sources-panel" id="sourcesPanel" aria-label="Sources for this trophy"></aside>
     </div>
   </section>
 
-  <section id="tab-roadmap" class="tab">
-    <p class="intro">Seven stages, in the order to play them. Story first, then the finales that unlock late, then cleanup in free-roam. Keep a manual save at the start of every chapter — there is no mission replay.</p>
-    <div id="roadmapView"></div>
+  <section class="panel" id="tab-roadmap">
+    <p class="panel-intro">Seven stages, in play order. Story first, then the free-roam cleanup — and the one missable goes first.</p>
+    <div id="roadmap"></div>
   </section>
 
-  <section id="tab-missables" class="tab">
-    <p class="intro">One trophy is possibly missable. Six more are on watch: timed, disputed, or still unconfirmed a day after launch. Every flagged trophy below says exactly what to do anyway.</p>
-    <div id="missablesView"></div>
+  <section class="panel" id="tab-missables">
+    <p class="panel-intro">One trophy can be missed, six need watching, five rest on a single source or an unconfirmed method, and six are where the sources disagree.</p>
+    <div id="missables"></div>
   </section>
 
-  <section id="tab-sources" class="tab">
-    <p class="intro">Every guide step cites a numbered source. Read depth is labelled honestly: full page means the whole guide was read; list means the trophy list only; excerpt means a search excerpt. Nothing here is copied — every guide is written in our own words from these sources.</p>
-    <div id="matrixView"></div>
+  <section class="panel" id="tab-sources">
+    <p class="panel-intro">Every guide step cites a source. Green means two or more guide sources agree; amber means one source, a disagreement, or an unconfirmed method.</p>
+    <div id="matrix"></div>
+    <div id="disagreements"></div>
   </section>
 
-  <section id="tab-progress" class="tab">
-    <p class="intro">Progress lives in this browser (localStorage). Export downloads it as a file; Import reads one back. Nothing leaves the browser.</p>
-    <div id="progressView"></div>
+  <section class="panel" id="tab-progress">
+    <p class="panel-intro">The 100% checklist behind A Long Road, and every counted trophy's progress bar.</p>
+    <div id="progress"></div>
   </section>
 </main>
 
 <footer>
-  <p>Unofficial fan guide. Not affiliated with Rockstar Games, Sony, or PlayStation. Trophy names and descriptions are shown as PlayStation publishes them; every guide is written in our own words and cites its sources. No Rockstar artwork is used. Sources read 20 Nov 2026.</p>
+  <p>Leonida Trophy Atlas — unofficial fan guide. GTA VI and PlayStation are trademarks of their owners. Trophy names and descriptions are the official list; the guides are original, written from the cited sources. Sources read 20 Nov 2026: PowerPyx, OutputLog, KeenGamer, the official list, PSNProfiles.</p>
 </footer>
-
-<script type="module" src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
